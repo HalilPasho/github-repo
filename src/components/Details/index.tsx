@@ -11,12 +11,12 @@ import './details.scss';
  *    @property url - string
  *    @property avatar - string
  */
-function Details({ repo }) {
+function Details({ repo }: { repo: any }) {
   if (!repo) return null;
 
   const { avatar, owner, title, stars, timestamp, url } = repo;
 
-  function formatDate(timestamp) {
+  function formatDate(timestamp: string | number | Date) {
     return new Date(timestamp).toLocaleDateString();
   }
 

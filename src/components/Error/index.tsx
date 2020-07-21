@@ -1,14 +1,12 @@
 import React from 'react';
 import './error.scss';
 
-function Error({ message, onClear }) {
+function Error(props: any) {
   return (
     <div className="errorMessage">
-      <h3>{message}</h3>
+      <h3>{props.message}</h3>
       <div>
-
-
-        <span onClick={onClear}>&#10006;</span>
+        <span onClick={props.onClear}>&#10006;</span>
       </div>
     </div>
   );

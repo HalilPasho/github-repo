@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './sort.scss';
 
-const orderArrows = {
+const orderArrows: any = {
   '1': '↑',
   '-1': '↓',
 };
@@ -12,14 +12,14 @@ const orderArrows = {
  * @param onSort - function, accepts newly sorted repos
  *
  */
-function Sort({ currentRepos, onSort }) {
+function Sort(props: any) {
   const [currentKey, updateKey] = useState('');
   const [currentOrder, updateOrder] = useState(1);
 
-  function sort(key) {
+  function sort(key: any) {
     const order = currentKey === key ? -1 : 1;
 
-    const sortedRepos = [...currentRepos].sort((a, b) => {
+    const sortedRepos = [...props.currentRepos].sort((a, b) => {
       if (a[key] < b[key]) return -1 * order;
       if (a[key] > b[key]) return 1 * order;
       return 0;
@@ -29,25 +29,23 @@ function Sort({ currentRepos, onSort }) {
       updateKey(key);
     }
     updateOrder(order);
-    onSort(sortedRepos);
+    props.onSort(sortedRepos);
   }
 
   return (
     <div className="sortContainer">
-        <button
-          onClick={() => {
-            sort('title');
-          }}>
-            {`Name ${currentKey === 'title' ? orderArrows[currentOrder] : ''}`}
-        </button>
-        <button
-          onClick={() => {
-            sort('stars');
-          }}>
-            {`Stars ${
-              currentKey === 'stars' ? orderArrows[currentOrder] : ''
-            }`}
-        </button>
+      <button
+        onClick={() => {
+          sort('title');
+        }}>
+        {`Name ${currentKey === 'title' ? orderArrows[currentOrder] : ''}`}
+      </button>
+      <button
+        onClick={() => {
+          sort('stars');
+        }}>
+        {`Stars ${currentKey === 'stars' ? orderArrows[currentOrder] : ''}`}
+      </button>
     </div>
   );
 }

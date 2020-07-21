@@ -1,4 +1,4 @@
-const API_ROOT = 'https://api.github.com';
+const API_ROOT: string = 'https://api.github.com';
 
 /**
  *
@@ -9,7 +9,11 @@ const API_ROOT = 'https://api.github.com';
  *          error: string or null, error message
  *          repos: results
  */
-export async function fetchGitHubRepo(repoName, perPage = 100, page = 1) {
+export async function fetchGitHubRepo(
+  repoName: string,
+  perPage: number = 100,
+  page: number = 1,
+) {
   const query = encodeURIComponent(repoName);
 
   const result = {
@@ -26,15 +30,24 @@ export async function fetchGitHubRepo(repoName, perPage = 100, page = 1) {
     );
 
     result.repos = await response.json().then(repos =>
-      repos.items.map(item => ({
-        id: item.id,
-        avatar: item.owner.avatar_url,
-        owner: item.owner.login,
-        title: item.name,
-        stars: item.stargazers_count,
-        timestamp: item.created_at,
-        url: item.html_url,
-      })),
+      repos.items.map(
+        (item: {
+          id: any;
+          owner: { avatar_url: any; login: any };
+          name: any;
+          stargazers_count: any;
+          created_at: any;
+          html_url: any;
+        }) => ({
+          id: item.id,
+          avatar: item.owner.avatar_url,
+          owner: item.owner.login,
+          title: item.name,
+          stars: item.stargazers_count,
+          timestamp: item.created_at,
+          url: item.html_url,
+        }),
+      ),
     );
   } catch (e) {
     result.error = e.message;

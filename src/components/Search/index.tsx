@@ -6,15 +6,15 @@ import { fetchGitHubRepo } from '../../api';
  * onSearchStart - method that accepts a search keyword (string)
  * updateLoadingState - method that changes loading state (boolean)
  */
-function Search({ onSearchResults, updateLoadingState, stopUpdating }) {
+function Search(props: any) {
   const [text, updateText] = React.useState('');
 
-  async function fetchItems() {
-    updateLoadingState(true)
+  async function fetchItems(text: any) {
+    props.updateLoadingState(true);
 
     const result = await fetchGitHubRepo(text);
-    onSearchResults && onSearchResults(result);
-    updateLoadingState(false);
+    props.onSearchResults && props.onSearchResults(result);
+    props.updateLoadingState(false);
   }
 
   return (

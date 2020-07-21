@@ -7,13 +7,16 @@ import Loading from './components/Loading';
 import Cell from './components/Cell';
 import Details from './components/Details';
 import Sort from './components/Sort';
-
+type Props = {
+  /*props properties*/
+};
+type State = {};
 function App() {
   const [isLoading, setLoadingState] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [repositories, updateRepositories] = useState([]);
-  const [selectedRepoDetails, updateSelectedDetails] = useState(null);
-  const [favoriteReposList, updateFavoriteReposList] = useState([]);
+  const [selectedRepoDetails, updateSelectedDetails] = useState<any>(null);
+  const [favoriteReposList, updateFavoriteReposList] = useState<any>([]);
 
   /**
    * Called when GitHub API calls finishes
@@ -29,7 +32,7 @@ function App() {
    *          owner: Object containing info about owner:
    *              login: github handle of the author
    */
-  function onSearchResults(results) {
+  function onSearchResults(results: { repos: any; error: any }) {
     const { repos, error } = results;
 
     if (error) {
@@ -43,7 +46,7 @@ function App() {
    *
    * @param repoId - string, id of the repo to be added to favorites
    */
-  function onAddToFavorite(repoId) {
+  function onAddToFavorite(repoId: any) {
     let favList = [...favoriteReposList];
     let index = favList.indexOf(repoId);
 
@@ -74,21 +77,31 @@ function App() {
         {hasResults ? (
           <div className="resultContainer">
             <Sort onSort={updateRepositories} currentRepos={repositories} />
-            {repositories.map(repo => (
-              <Cell
-                onAddToFavorite={repoId => onAddToFavorite(repoId)}
-                onPress={() => updateSelectedDetails(repo)}
-                key={repo.id}
-                id={repo.id}
-                avatar={repo.avatar}
-                owner={repo.owner}
-                title={repo.title}
-                stars={repo.stars}
-                timestamp={repo.timestamp}
-                url={repo.url}
-                isFavorite={favoriteReposList.includes(repo.id)}
-              />
-            ))}
+            {repositories.map(
+              (repo: {
+                id: string | number | undefined;
+                avatar: any;
+                owner: any;
+                title: any;
+                stars: any;
+                timestamp: any;
+                url: any;
+              }) => (
+                <Cell
+                  onAddToFavorite={(repoId: any) => onAddToFavorite(repoId)}
+                  onPress={() => updateSelectedDetails(repo)}
+                  key={repo.id}
+                  id={repo.id}
+                  avatar={repo.avatar}
+                  owner={repo.owner}
+                  title={repo.title}
+                  stars={repo.stars}
+                  timestamp={repo.timestamp}
+                  url={repo.url}
+                  isFavorite={favoriteReposList.includes(repo.id)}
+                />
+              ),
+            )}
           </div>
         ) : null}
       </div>

@@ -9,7 +9,7 @@ import { fetchGitHubRepo } from '../../api';
 function Search(props: any) {
   const [text, updateText] = React.useState('');
 
-  async function fetchItems(text: any) {
+  async function fetchItems(text: string) {
     props.updateLoadingState(true);
 
     const result = await fetchGitHubRepo(text);
